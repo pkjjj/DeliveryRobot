@@ -9,7 +9,7 @@ namespace DeliveryRobot
         static void Main(string[] args)
         {
             IField field = new Field();
-            field.Parsing("5x5 (0, 0) (1, 3) (4,4) (4, 2) (4, 2) (0, 1) (3, 2) (2, 3) (4, 1) (4,0) (3, 0) (3, 1)");
+            field.Parsing("5x5(5, 5)(4, 4)(2, 1)(1, 5)(0, 1)");
             DataModel model = new(field.MakeMatrix());
             Robot robot = new();
             List<int> OptimalPath = Algorithm.FindOptimalWay(model);
@@ -25,13 +25,13 @@ namespace DeliveryRobot
         void Parsing(string data);
     }
 
-    class Field : IField
+    public class Field : IField
     {
         public int Width { get; set; }
         public int Height { get; set; }
         public List<Tuple<int, int>> Points { get; set; }
 
-        //Parsin input string in List (X,Y)
+        //Parsing input string in List (X,Y)
         public void Parsing (string data)
         {
             Points = new();
@@ -44,12 +44,17 @@ namespace DeliveryRobot
             //First item1 - x point, item2 - y point
             for(int i = 2; i < arrPoints.Length; i=i+2)
             {
-                Points.Add(Tuple.Create(arrPoints[i], arrPoints[i + 1]));
+                //If first element not (0,0) so add it
+                if (i == 2 && arrPoints[i] != 0 && arrPoints[i + 1] != 0)
+                {
+                    Points.Add(Tuple.Create(0, 0));
+                }
+                    Points.Add(Tuple.Create(arrPoints[i], arrPoints[i + 1]));
             }
         }
     }
 
-    class Robot
+    public class Robot
     {
         public IField Field { get; set; }
         public List<int> OptimalPath;
@@ -136,7 +141,7 @@ namespace DeliveryRobot
         }
     }
 
-    class DataModel
+    public class DataModel
     {
         public int[,] DistanceMatrix;
         public int VehicleNumber = 1;
@@ -150,7 +155,7 @@ namespace DeliveryRobot
     }
 
     //Finding the optimal path going through points by Algorithm for solving Travling Salesperson Problem using Google OR-Tolls
-    class Algorithm
+    public class Algorithm
     {
         //Return optimal(minimal) path
         static List<int> ReturnPath(in RoutingModel routing, in RoutingIndexManager manager, in Assignment solution, in DataModel model)
@@ -167,8 +172,8 @@ namespace DeliveryRobot
                 routeDistance += routing.GetArcCostForVehicle(previousIndex, index, 0);
             }
             //Check optimal path bellow
-            //foreach (var elem in arrayofOptimalpoints)
-            //    Console.WriteLine(elem);
+            foreach (var elem in arrayofOptimalpoints)
+                Console.WriteLine(elem);
             return arrayofOptimalpoints;
         }
         //Algorithm solve TSP using Google OR-Tools
