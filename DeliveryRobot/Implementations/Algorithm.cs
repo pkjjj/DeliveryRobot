@@ -11,7 +11,7 @@ namespace DeliveryRobot.Implementations
     public class Algorithm
     {
         //Return optimal(minimal) path
-        static List<int> ReturnPath(in RoutingModel routing, in RoutingIndexManager manager, in Assignment solution, in DataModel model)
+        public static List<int> ReturnPath(RoutingModel routing, RoutingIndexManager manager, Assignment solution, DataModel model)
         {
             var arrayofOptimalpoints = new List<int>();
             long routeDistance = 0;
@@ -24,16 +24,6 @@ namespace DeliveryRobot.Implementations
                 index = solution.Value(routing.NextVar(index));
                 routeDistance += routing.GetArcCostForVehicle(previousIndex, index, 0);
             }
-            //Check optimal path bellow
-            Console.WriteLine("Optimal path:");
-            foreach (var elem in arrayofOptimalpoints)
-            {
-                if (elem != arrayofOptimalpoints[arrayofOptimalpoints.Count - 1])
-                    Console.Write(elem + "->");
-                else
-                    Console.Write(elem);
-            }
-            Console.WriteLine();
             return arrayofOptimalpoints;
         }
         //Algorithm solve TSP using Google OR-Tools

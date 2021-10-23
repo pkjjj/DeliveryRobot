@@ -33,10 +33,6 @@ namespace DeliveryRobot.Implementations
                 }
                 Points.Add(Tuple.Create(arrPoints[i], arrPoints[i + 1]));
             }
-            //check elements
-            foreach (var elem in Points)
-                Console.Write(elem);
-            Console.WriteLine();
         }
     }
 }

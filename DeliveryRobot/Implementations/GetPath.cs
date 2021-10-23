@@ -8,11 +8,6 @@ namespace DeliveryRobot.Implementations
 {
     public static class GetPath
     {
-        public static void PrintPath(Robot robot)
-        {
-            Console.WriteLine(robot.ResultPath);
-        }
-
         public static string ReturnPath(Robot robot)
         {
             return robot.ResultPath;
